@@ -1,2 +1,2 @@
 # _notes-maintainer_
-:note: application who maintain your notes (done or not)
+Application created with React.js using an API created with PHP :alien: 

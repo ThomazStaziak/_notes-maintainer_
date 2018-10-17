@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
 import Input from './Input'
 import Button from './Button'
 import './App.css'
@@ -9,20 +8,41 @@ class App extends Component {
     super()
     this.state = {
       input: '',
-      li: []
+      li: [],
+      done: []
     }
   }
 
   listTasks() {
+    this.setState({
+      done: [],
+      li: []
+    })
     fetch('http://localhost:8000/api/listTasks/', {
       method: 'GET'
     })
       .then((response) => response.json())
       .then((response) => {
-
-        this.setState({
-          li: response
-        })
+        // this.setState({
+        //   li: response
+        // })
+        for (let i = 0; i < response.length; i++) {
+          if (response[i].status === 0) {
+            this.setState({
+              done: [
+                ...this.state.done,
+                response[i]
+              ]
+            })
+          } else {
+            this.setState({
+              li: [
+                ...this.state.li,
+                response[i]
+              ]
+            })
+          }
+        }
       })
   }
 
@@ -73,39 +93,46 @@ class App extends Component {
     this.listTasks()
   }
 
-  validarStatus(numero) {
+  checkStatus(numero) {
     if (numero < 1) {
-      return "A Fazer"
+      return 'A Fazer'
     } else {
-      return "Feito"
+      return 'Feito'
     }
   }
 
   render() {
     return (
-      <div>
-          {
-            // this.state.li.map((object) =>
-            //   object.map((object) =>
-            //     <li key={object.id}>{object.text}</li>
-            //   )
-            // )
-          }
-       <div className="App">
+      <div className="Container">
+       <div className="Done">
+         <h3 align="center">Done</h3>
           {this.state.li.map((object) =>
             <div>
               <li key={object.id}>
                 <b>Tarefa:</b> {object.text}
-                <b> Status: </b> {this.validarStatus(object.status)}
+                <b> Status: </b> {this.checkStatus(object.status)}
                 <Button title="Feito" onClick={() => {this.updateTask(object.id)}} />
                 <Button title="Apagar" onClick={() => {this.deleteTask(object.id)}} />
               </li>
             </div>
           )}
         </div>
-        <div className="top">
+        <div>
+          <h3 align="center">To Do</h3>
+            {this.state.done.map((object) =>
+              <div>
+                <li key={object.id}>
+                  <b>Tarefa:</b> {object.text}
+                  <b>Status:</b> {this.checkStatus(object.status)}
+                  <Button title="Feito" onClick={() => {this.updateTask(object.id)}} />
+                  <Button title="Apagar" onClick={() => {this.deleteTask(object.id)}} />
+                </li>
+              </div>
+            )}
+        </div>
+        <div className="Top">
           <Input type="text" onChange={(e) => this.saveName(e)} />
-          <Button title="Adicionar Tarefa!" onClick={() => this.addTask()}/>
+          <Button title="Adicionar Tarefa!" onClick={() => this.addTask()} onEnter={() => {this.addTask()}}/>
         </div>
       </div>
     )

@@ -22,14 +22,15 @@
   font-size: large;
 }
 
-.top {
-  position: absolute;
-  top: 0;
+.Top {
+  display: flex;
+  align-items: center;
 }
 
-.done {
-  position: absolute;
-  
+.Container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-around;
 }
 
 .toDo {

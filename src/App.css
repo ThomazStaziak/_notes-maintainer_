@@ -22,20 +22,72 @@
   font-size: large;
 }
 
-.Top {
-  display: flex;
-  align-items: center;
+/*
+* NavBar
+*/
+
+.custom-navbar {
+  background-color: #767676;
+  margin-bottom: 10px;
 }
 
-.Container {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-around;
+.custom-logo {
+  margin: 0 auto;
 }
 
-.toDo {
+/*
+*
+*/
+
+.Done hr,
+.Note hr,
+.Done h3,
+.Note h3 {
+  margin: 0;
+}
+
+.Item {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  border: 1px lightgray solid;
+  position: relative;
+  margin: 5px;
+}
+
+.Item .Content {
+  text-align: center;
+}
+
+.cards {
+  display: table;
+  width: 30%;
+  /* padding: 30px; */
+  border: 1px gray solid;
+}
+
+.Delete {
+  color: gray;
+  cursor: pointer;
   position: absolute;
+  right: 10px;
+  bottom: 0;
+}
 
+.Delete:hover {
+  color: black;
+}
+
+.Set-Note {
+  color: gray;
+  cursor: pointer;
+  position: absolute;
+  right: 30px;
+  bottom: 0
+}
+
+.Set-Note:hover {
+  color: red
 }
 
 @keyframes App-logo-spin {

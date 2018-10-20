@@ -1,13 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'rect'
 
 class Button extends Component {
-  render() {
-    return (
-      <button onClick={this.props.onClick}>
-        { this.props.title }
-      </button>
-    )
-  }
+  
 }
 
-export default Button;
+export default Button

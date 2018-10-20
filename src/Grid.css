@@ -1,0 +1,10 @@
+.Top {
+  display: flex;
+  align-items: flex-start;
+}
+
+.Container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+}

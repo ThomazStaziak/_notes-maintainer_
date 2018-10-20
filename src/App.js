@@ -1,48 +1,47 @@
 import React, { Component } from 'react'
+import NavBar from './NavBar'
 import Input from './Input'
-import Button from './Button'
+import Icon from './Icon'
 import './App.css'
+import './Grid.css'
 
 class App extends Component {
   constructor() {
     super()
     this.state = {
       input: '',
-      li: [],
-      done: []
+      notes: [],
+      favorite: []
     }
   }
 
   listTasks() {
     this.setState({
-      done: [],
-      li: []
+      notes: [],
+      favorite: []
     })
     fetch('http://localhost:8000/api/listTasks/', {
       method: 'GET'
     })
       .then((response) => response.json())
       .then((response) => {
-        // this.setState({
-        //   li: response
-        // })
-        for (let i = 0; i < response.length; i++) {
-          if (response[i].status === 0) {
+        response.forEach((value, index) => {
+          if (value.status === 0) {
             this.setState({
-              done: [
-                ...this.state.done,
-                response[i]
+              notes: [
+                ...this.state.notes,
+                response[index]
               ]
             })
           } else {
             this.setState({
-              li: [
-                ...this.state.li,
-                response[i]
+              favorite: [
+                ...this.state.favorite,
+                response[index]
               ]
             })
           }
-        }
+        })
       })
   }
 
@@ -69,8 +68,8 @@ class App extends Component {
     })
   }
 
-  updateTask(id) {
-    fetch(`http://localhost:8000/api/updateTask/${id}`, {
+  updateTask(id, status) {
+    fetch(`http://localhost:8000/api/updateTask/${id}/${status}`, {
       method: 'GET'
     })
     .then((response) => response.json())
@@ -103,38 +102,47 @@ class App extends Component {
 
   render() {
     return (
+    <div>
+      <NavBar className="custom-navbar navbar navbar-light bg-light" classNameLogo="custom-logo" />
       <div className="Container">
-       <div className="Done">
+       <div className="Done cards">
          <h3 align="center">Done</h3>
-          {this.state.li.map((object) =>
+         <hr/>
+          {this.state.notes.map((object) =>
             <div>
-              <li key={object.id}>
-                <b>Tarefa:</b> {object.text}
-                <b> Status: </b> {this.checkStatus(object.status)}
-                <Button title="Feito" onClick={() => {this.updateTask(object.id)}} />
-                <Button title="Apagar" onClick={() => {this.deleteTask(object.id)}} />
+              <li className="Item" key={object.id}>
+                <div className="Content">
+                  <b>Título:</b> {object.text} <br/>
+                  <p>lorem ipsum dolor asi met</p>
+                </div>
+                <Icon className="Set-todo" title="DESFAZER" name="heart-dislike" onClick={() => {this.updateTask(object.id, 'aFazer')}} />
+                <Icon className="Delete" title="APAGAR" name="trash" onClick={() => {this.deleteTask(object.id)}} />
               </li>
             </div>
           )}
         </div>
-        <div>
-          <h3 align="center">To Do</h3>
-            {this.state.done.map((object) =>
+        <div className="Note cards">
+          <h3 align="center">Notes</h3>
+          <hr/>
+            {this.state.favorite.map((object) =>
               <div>
-                <li key={object.id}>
-                  <b>Tarefa:</b> {object.text}
-                  <b>Status:</b> {this.checkStatus(object.status)}
-                  <Button title="Feito" onClick={() => {this.updateTask(object.id)}} />
-                  <Button title="Apagar" onClick={() => {this.deleteTask(object.id)}} />
+                <li className="Item" key={object.id}>
+                  <div className="">
+                    <b>Título:</b> {object.text} <br/>
+                    <p>lorem ipsum dolor asi met</p>
+                  </div>
+                  <Icon className="Set-todo" title="FAVORITAR" name="heart" onClick={() => {this.updateTask(object.id, 'feito')}} />
+                  <Icon className="Delete" title="APAGAR" name="trash" onClick={() => {this.deleteTask(object.id)}} />
                 </li>
               </div>
             )}
         </div>
         <div className="Top">
-          <Input type="text" onChange={(e) => this.saveName(e)} />
-          <Button title="Adicionar Tarefa!" onClick={() => this.addTask()} onEnter={() => {this.addTask()}}/>
+          <Input type="text" className="text-center" placeholder="Insira um Título" onChange={(e) => this.saveName(e)} />
+          <Icon title="Adicionar Tarefa!" onClick={() => this.addTask()} onEnter={() => {this.addTask()}}/>
         </div>
       </div>
+    </div>
     )
   }
 }

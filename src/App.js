@@ -69,6 +69,7 @@ class App extends Component {
   }
 
   updateTask(id, status) {
+    console.log(`${status}`)
     fetch(`http://localhost:8000/api/updateTask/${id}/${status}`, {
       method: 'GET'
     })
@@ -105,17 +106,17 @@ class App extends Component {
     <div>
       <NavBar className="custom-navbar navbar navbar-light bg-light" classNameLogo="custom-logo" />
       <div className="Container">
-       <div className="Done cards">
-         <h3 align="center">Done</h3>
+       <div className="Favorite cards">
+         <h3 align="center">Favorites</h3>
          <hr/>
-          {this.state.notes.map((object) =>
+          {this.state.favorite.map((object) =>
             <div>
               <li className="Item" key={object.id}>
                 <div className="Content">
                   <b>Título:</b> {object.text} <br/>
                   <p>lorem ipsum dolor asi met</p>
                 </div>
-                <Icon className="Set-todo" title="DESFAZER" name="heart-dislike" onClick={() => {this.updateTask(object.id, 'aFazer')}} />
+                <Icon className="Set-Note" title="DESFAZER" name="heart-dislike" onClick={() => {this.updateTask(object.id, 'aFazer')}} />
                 <Icon className="Delete" title="APAGAR" name="trash" onClick={() => {this.deleteTask(object.id)}} />
               </li>
             </div>
@@ -124,14 +125,14 @@ class App extends Component {
         <div className="Note cards">
           <h3 align="center">Notes</h3>
           <hr/>
-            {this.state.favorite.map((object) =>
+            {this.state.notes.map((object) =>
               <div>
                 <li className="Item" key={object.id}>
-                  <div className="">
-                    <b>Título:</b> {object.text} <br/>
+                  <div className="Adjust-content">
+                    <p> <b>Título:</b> {object.text} </p>
                     <p>lorem ipsum dolor asi met</p>
                   </div>
-                  <Icon className="Set-todo" title="FAVORITAR" name="heart" onClick={() => {this.updateTask(object.id, 'feito')}} />
+                  <Icon className="Set-Note" title="FAVORITAR" name="heart" onClick={() => {this.updateTask(object.id, 'feito')}} />
                   <Icon className="Delete" title="APAGAR" name="trash" onClick={() => {this.deleteTask(object.id)}} />
                 </li>
               </div>

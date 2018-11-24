@@ -1,3 +1,11 @@
+/*
+* COMMON
+*/
+
+p {
+  margin: 0 !important;
+}
+
 .App {
   text-align: center;
 }
@@ -39,9 +47,9 @@
 *
 */
 
-.Done hr,
+.Favorite hr,
 .Note hr,
-.Done h3,
+.Favorite h3,
 .Note h3 {
   margin: 0;
 }
@@ -88,6 +96,12 @@
 
 .Set-Note:hover {
   color: red
+}
+
+.Adjust-content {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
 }
 
 @keyframes App-logo-spin {
